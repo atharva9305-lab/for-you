@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You are special!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #0d0208; color: #ff79c6; font-family: 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; }
+        .container { width: 90%; max-width: 400px; padding: 20px; }
+        
+        /* Character & Heart Icons */
+        .char-box { margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
+        .char-box img { width: 100px; border-radius: 50%; border: 4px solid #fff; }
+        .heart-icon-pink { color: #ff79c6; font-size: 60px; margin-bottom: 20px; animation: pulse 1.5s infinite; }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        /* Progress Bar */
+        .meter-container { background: #1a1a1a; padding: 30px; border-radius: 20px; border: 1px solid #ff79c6; }
+        .bar-bg { background: #333; height: 25px; border-radius: 15px; margin: 20px 0; overflow: hidden; }
+        .bar-fill { background: #ff79c6; height: 100%; width: 0%; transition: width 0.1s linear; }
+        .warning { color: #ff5555; font-weight: bold; font-size: 14px; display: none; }
+
+        /* Buttons */
+        .btn { background: #1a1a1a; color: #ff79c6; border: 1px solid #ff79c6; padding: 15px; width: 100%; margin: 10px 0; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 16px; transition: 0.3s; text-decoration: none; }
+        .next-btn { background: #ff79c6; color: #000; font-weight: bold; justify-content: center; border: none; }
+
+        /* Note Section */
+        .letter-box { background: #ffb7d5; color: #000; padding: 25px; border-radius: 15px; margin-top: 20px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-size: 15px; line-height: 1.5; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="start-screen">
+            <div class="char-box"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXNqZXIxdXp6ZzR5eGZ6ZzR5eGZ6ZzR5eGZ6ZzR5eGZ6ZzR5JnB0PWEmZXA9djFfaW50ZXJuYWxfZ2lmX2J5X2lkJmN0PXM/3o7TKVUn7iM8FMEU24/giphy.gif"></div>
+            <h1 style="font-weight: normal; margin-bottom: 5px;">Hey Beautiful</h1>
+            <p style="margin-top: 0; opacity: 0.8;">Do you even know how cute you are?</p>
+            <button class="btn next-btn" onclick="startScan()">Open My Heart <i class="fas fa-heart" style="margin-left:10px;"></i></button>
+        </div>
+
+        <div id="meter-screen" class="hidden">
+            <h3 style="font-weight: normal;">Measuring your cuteness...</h3>
+            <div class="meter-container">
+                <div class="bar-bg"><div id="fill" class="bar-fill"></div></div>
+                <h1 id="percent" style="margin: 0; font-size: 40px;">0%</h1>
+                <p id="calc-status" style="margin-top: 5px; opacity: 0.7;">Calculating cuteness...</p>
+                <p class="warning" id="warn">⚠️ WARNING: TOO CUTE TO HANDLE</p>
+            </div>
+        </div>
+
+        <div id="reveal-screen" class="hidden">
+            <div class="heart-icon-pink"><i class="fas fa-heart"></i></div>
+            <h2 style="font-weight: normal; margin-bottom: 5px;">Just for you</h2>
+            <p style="opacity: 0.8; margin-bottom: 20px;">Tap each one to reveal</p>
+            <button class="btn" onclick="reveal(this, 'You look adorable')"><i class="far fa-heart"></i></button>
+            <button class="btn" onclick="reveal(this, 'You have the sweetest vibe')"><i class="far fa-heart"></i></button>
+            <button class="btn" onclick="reveal(this, 'You make things feel lighter')"><i class="far fa-heart"></i></button>
+            <button class="btn" onclick="reveal(this, 'You are naturally charming')"><i class="far fa-heart"></i></button>
+            <button class="btn" onclick="reveal(this, 'You make everything feel more special')"><i class="far fa-heart"></i></button>
+            <button id="see-more" class="btn next-btn hidden" style="margin-top: 20px;" onclick="showLetter()">See more <i class="fas fa-arrow-right" style="margin-left:10px;"></i></button>
+        </div>
+
+        <div id="final-screen" class="hidden">
+            <h3 style="font-style: italic; font-weight: normal;">A little note for you</h3>
+            <div class="letter-box">
+                <i class="fas fa-heart" style="font-size: 20px;"></i><br><br>
+                I just wanted to tell you something... you really are special in a way that's hard to explain. There's a softness in the way you talk, a sweetness in the way you smile, and something genuine about you that just feels good to be around. You don't try to be anything extra, you're just you, and that's what makes you so lovely.
+                <br><br>
+                <button class="btn next-btn" style="width: 100%; border-radius: 20px;" onclick="showLast()">One more thing <i class="fas fa-arrow-right" style="margin-left:10px;"></i></button>
+            </div>
+        </div>
+
+        <div id="last-screen" class="hidden">
+            <div class="heart-icon-pink" style="font-size: 100px;"><i class="fas fa-heart"></i></div>
+            <h1 style="font-style: italic; font-weight: normal; font-size: 28px;">You'll always be special to me</h1>
+        </div>
+    </div>
+
+    <script>
+        let clicks = 0;
+        function startScan() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('meter-screen').classList.remove('hidden');
+            let w = 0;
+            const interval = setInterval(() => {
+                w++;
+                document.getElementById('fill').style.width = (w > 100 ? 100 : w) + '%';
+                document.getElementById('percent').innerText = w + '%';
+                if(w >= 120) {
+                    clearInterval(interval);
+                    document.getElementById('warn').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('meter-screen').classList.add('hidden');
+                        document.getElementById('reveal-screen').classList.remove('hidden');
+                    }, 2500);
+                }
+            }, 50);
+        }
+        function reveal(btn, txt) {
+            btn.innerHTML = `<span>${txt}</span>`;
+            btn.style.background = "rgba(255,121,198,0.1)";
+            clicks++;
+            if(clicks >= 5) document.getElementById('see-more').classList.remove('hidden');
+        }
+        function showLetter() {
+            document.getElementById('reveal-screen').classList.add('hidden');
+            document.getElementById('final-screen').classList.remove('hidden');
+        }
+        function showLast() {
+            document.getElementById('final-screen').classList.add('hidden');
+            document.getElementById('last-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
